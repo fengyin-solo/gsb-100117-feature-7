@@ -9,10 +9,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.queue_app import batch_queue
 from app.routers import ROUTERS
 from app.store import store
 
-app = FastAPI(title="市政道路桥梁养护管理平台", version="1.0.0")
+app = FastAPI(title="市政道路桥梁养护管理平台", version="1.0.0", lifespan=batch_queue.lifespan)
 
 app.add_middleware(
     CORSMiddleware,

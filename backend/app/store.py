@@ -7,13 +7,16 @@ from __future__ import annotations
 from typing import Any
 
 from app.seed import SEED_ROWS
+from app.seed_console import build_console_seed
 
 
 class Store:
     def __init__(self) -> None:
-        self._tables: dict[str, list[dict[str, Any]]] = {
+        rows_by_module: dict[str, list[dict[str, Any]]] = {
             name: [dict(row) for row in rows] for name, rows in SEED_ROWS.items()
         }
+        rows_by_module.update(build_console_seed())
+        self._tables = rows_by_module
 
     def module_names(self) -> list[str]:
         return sorted(self._tables)
