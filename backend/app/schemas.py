@@ -28,6 +28,35 @@ class EntryPayload(BaseModel):
     remark: str | None = None
 
 
+class BatchTaskPayload(BaseModel):
+    """洞群批量签发：多选隧道 + 通风/消防/照明检查类别 + 作业窗口。"""
+
+    tunnel_ids: list[int] = Field(default_factory=list)
+    categories: list[str] = Field(default_factory=list)
+    plan_start: str = ""
+    plan_end: str = ""
+    leader: str = ""
+    closure_required: bool = False
+
+
+class TaskActionPayload(BaseModel):
+    """任务推进：开始作业 / 现场收口，收口必须带结论。"""
+
+    action: str
+    conclusion: str = ""
+    abnormal_items: str = ""
+
+
+class TaskApprovalPayload(BaseModel):
+    """现场负责人批准：可改到不与已批准窗口冲突的时段。"""
+
+    decision: str  # 批准 / 驳回
+    approver: str
+    approved_start: str = ""
+    approved_end: str = ""
+    note: str = ""
+
+
 
 class RoadSectionEntry(BaseModel):
     """管养路段明细结构。"""
